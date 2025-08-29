@@ -8,39 +8,41 @@ db = SQLAlchemy()
 class Follower(db.Model):
     __tablename__ = "follower"
     user_from_id: Mapped[int] = mapped_column(
-        ForeignKey("user.id"), primary_key=True)
+        ForeignKey("user.id"), primary_key=True
+    )
     user_to_id: Mapped[int] = mapped_column(
-        ForeignKey("user.id"), primary_key=True)
+        ForeignKey("user.id"), primary_key=True
+    )
+
+    user_from: Mapped["User"] = relationship(
+        "User", foreign_keys=[user_from_id], backref="following_relations"
+    )
+    user_to: Mapped["User"] = relationship(
+        "User", foreign_keys=[user_to_id], backref="follower_relations"
+    )
 
     def __str__(self):
         return f"{self.user_from_id} → {self.user_to_id}"
-
-    def serialize(self):
-        return {
-            "user_from_id": self.user_from_id,
-            "user_to_id": self.user_to_id,
-        }
 
 
 class User(db.Model):
     __tablename__ = "user"
     id: Mapped[int] = mapped_column(primary_key=True)
-    username: Mapped[str] = mapped_column(
-        String(50), unique=True, nullable=False)
+    username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     firstname: Mapped[str] = mapped_column(String(50))
     lastname: Mapped[str] = mapped_column(String(50))
-    email: Mapped[str] = mapped_column(
-        String(120), unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
 
     posts: Mapped[list["Post"]] = relationship(back_populates="user")
     comments: Mapped[list["Comment"]] = relationship(back_populates="author")
+
+    # Relación followers/following desde Follower
     followers: Mapped[list["Follower"]] = relationship(
-        foreign_keys=[Follower.user_to_id], backref="followed"
+        "Follower", foreign_keys="[Follower.user_to_id]", back_populates="user_to"
     )
     following: Mapped[list["Follower"]] = relationship(
-        foreign_keys=[Follower.user_from_id], backref="follower"
+        "Follower", foreign_keys="[Follower.user_from_id]", back_populates="user_from"
     )
-
     def __str__(self):
         return self.username
 

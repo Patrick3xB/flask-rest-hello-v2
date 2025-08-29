@@ -1,0 +1,23 @@
+
+      graph {
+         graph [rankdir=LR];
+         node [label="\N",
+             shape=plaintext
+         ];
+         edge [color=gray50,
+             minlen=2,
+             style=dashed
+         ];
+      
+"comment" [label=<<FONT FACE="Helvetica"><TABLE BORDER="0" CELLBORDER="1" CELLPADDING="4" CELLSPACING="0"><TR><TD><B><FONT POINT-SIZE="16">comment</FONT></B></TD></TR><TR><TD ALIGN="LEFT"><u><FONT>id</FONT></u> <FONT> [INTEGER]</FONT> NOT NULL</TD></TR><TR><TD ALIGN="LEFT"><FONT>author_id</FONT> <FONT> [INTEGER]</FONT> NOT NULL</TD></TR><TR><TD ALIGN="LEFT"><FONT>comment_text</FONT> <FONT> [TEXT]</FONT> NOT NULL</TD></TR><TR><TD ALIGN="LEFT"><FONT>post_id</FONT> <FONT> [INTEGER]</FONT> NOT NULL</TD></TR></TABLE></FONT>>];
+"user" [label=<<FONT FACE="Helvetica"><TABLE BORDER="0" CELLBORDER="1" CELLPADDING="4" CELLSPACING="0"><TR><TD><B><FONT POINT-SIZE="16">user</FONT></B></TD></TR><TR><TD ALIGN="LEFT"><u><FONT>id</FONT></u> <FONT> [INTEGER]</FONT> NOT NULL</TD></TR><TR><TD ALIGN="LEFT"><FONT>email</FONT> <FONT> [VARCHAR(120)]</FONT> NOT NULL</TD></TR><TR><TD ALIGN="LEFT"><FONT>firstname</FONT> <FONT> [VARCHAR(50)]</FONT> NOT NULL</TD></TR><TR><TD ALIGN="LEFT"><FONT>lastname</FONT> <FONT> [VARCHAR(50)]</FONT> NOT NULL</TD></TR><TR><TD ALIGN="LEFT"><FONT>username</FONT> <FONT> [VARCHAR(50)]</FONT> NOT NULL</TD></TR></TABLE></FONT>>];
+"post" [label=<<FONT FACE="Helvetica"><TABLE BORDER="0" CELLBORDER="1" CELLPADDING="4" CELLSPACING="0"><TR><TD><B><FONT POINT-SIZE="16">post</FONT></B></TD></TR><TR><TD ALIGN="LEFT"><u><FONT>id</FONT></u> <FONT> [INTEGER]</FONT> NOT NULL</TD></TR><TR><TD ALIGN="LEFT"><FONT>user_id</FONT> <FONT> [INTEGER]</FONT> NOT NULL</TD></TR></TABLE></FONT>>];
+"follower" [label=<<FONT FACE="Helvetica"><TABLE BORDER="0" CELLBORDER="1" CELLPADDING="4" CELLSPACING="0"><TR><TD><B><FONT POINT-SIZE="16">follower</FONT></B></TD></TR><TR><TD ALIGN="LEFT"><u><FONT>user_from_id</FONT></u> <FONT> [INTEGER]</FONT> NOT NULL</TD></TR><TR><TD ALIGN="LEFT"><u><FONT>user_to_id</FONT></u> <FONT> [INTEGER]</FONT> NOT NULL</TD></TR></TABLE></FONT>>];
+"media" [label=<<FONT FACE="Helvetica"><TABLE BORDER="0" CELLBORDER="1" CELLPADDING="4" CELLSPACING="0"><TR><TD><B><FONT POINT-SIZE="16">media</FONT></B></TD></TR><TR><TD ALIGN="LEFT"><u><FONT>id</FONT></u> <FONT> [INTEGER]</FONT> NOT NULL</TD></TR><TR><TD ALIGN="LEFT"><FONT>post_id</FONT> <FONT> [INTEGER]</FONT> NOT NULL</TD></TR><TR><TD ALIGN="LEFT"><FONT>type</FONT> <FONT> [VARCHAR(5)]</FONT> NOT NULL</TD></TR><TR><TD ALIGN="LEFT"><FONT>url</FONT> <FONT> [VARCHAR(250)]</FONT> NOT NULL</TD></TR></TABLE></FONT>>];
+"post" -- "comment" [taillabel=<<FONT>1</FONT>>,headlabel=<<FONT>0..N</FONT>>];
+"user" -- "comment" [taillabel=<<FONT>1</FONT>>,headlabel=<<FONT>0..N</FONT>>];
+"user" -- "post" [taillabel=<<FONT>1</FONT>>,headlabel=<<FONT>0..N</FONT>>];
+"user" -- "follower" [taillabel=<<FONT>1</FONT>>,headlabel=<<FONT>1</FONT>>];
+"user" -- "follower" [taillabel=<<FONT>1</FONT>>,headlabel=<<FONT>1</FONT>>];
+"post" -- "media" [taillabel=<<FONT>1</FONT>>,headlabel=<<FONT>0..N</FONT>>];
+}

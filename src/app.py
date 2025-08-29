@@ -18,11 +18,16 @@ app.url_map.strict_slashes = False
 db_url = os.getenv("DATABASE_URL")
 
 if db_url is not None:
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(
-        "postgres://", "postgresql://")
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
 else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    sqlite_path = os.path.join(basedir, "test.db")
+    os.makedirs(os.path.dirname(sqlite_path), exist_ok=True)
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{sqlite_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+#compruebo que la base de datos se ha configurado correctamente
+print(f"🚀 Starting app with DB: {app.config['SQLALCHEMY_DATABASE_URI']}")
 
 MIGRATE = Migrate(app, db)
 db.init_app(app)

@@ -1,0 +1,28 @@
+[comment]
+    *id {label:"INTEGER"}
+    author_id {label:"INTEGER"}
+    comment_text {label:"TEXT"}
+    post_id {label:"INTEGER"}
+[user]
+    *id {label:"INTEGER"}
+    email {label:"VARCHAR(120)"}
+    firstname {label:"VARCHAR(50)"}
+    lastname {label:"VARCHAR(50)"}
+    username {label:"VARCHAR(50)"}
+[post]
+    *id {label:"INTEGER"}
+    user_id {label:"INTEGER"}
+[follower]
+    *user_from_id {label:"INTEGER"}
+    *user_to_id {label:"INTEGER"}
+[media]
+    *id {label:"INTEGER"}
+    post_id {label:"INTEGER"}
+    type {label:"VARCHAR(5)"}
+    url {label:"VARCHAR(250)"}
+post 1--* comment
+user 1--* comment
+user 1--* post
+user 1--1 follower
+user 1--1 follower
+post 1--* media
